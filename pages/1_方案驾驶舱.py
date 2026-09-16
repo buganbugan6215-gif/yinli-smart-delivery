@@ -1,7 +1,10 @@
 import streamlit as st
 import plotly.express as px
+import folium
+from streamlit_folium import st_folium
 
 from 功能组件_页面共用代码.data_loader import load_site_data, get_summary
+from 功能组件_页面共用代码.maps import add_customer_points, add_route_features, add_zoom_detail_behavior, create_chengdu_map
 from 功能组件_页面共用代码.ui import fmt_money, fmt_num, inject_css, page_title, plotly_config, render_sidebar, section_label, source_note
 
 inject_css()
@@ -60,3 +63,14 @@ else:
             st.info("成本分项暂无可验证数据。")
 
 source_note(data.manifest)
+
+section_label("全部配送路线")
+map_filter = st.radio("地图显示", ["全部路线", "鲜面专线", "姜蒜专线"], horizontal=True)
+product_code = {"全部路线": None, "鲜面专线": "N", "姜蒜专线": "G"}[map_filter]
+fmap, minor_layer = create_chengdu_map(zoom_start=10)
+add_route_features(fmap, data.geojson.get("routes", {}), product_code)
+add_customer_points(fmap, data.geojson.get("customers", {}), product_code)
+add_zoom_detail_behavior(fmap, minor_layer, threshold=13)
+folium.LayerControl(collapsed=True, position="topright").add_to(fmap)
+st_folium(fmap, use_container_width=True, height=620, returned_objects=[])
+st.caption("工作人员可按品类查看全部配送路径和客户点；放大地图后自动显示细支道路。")
