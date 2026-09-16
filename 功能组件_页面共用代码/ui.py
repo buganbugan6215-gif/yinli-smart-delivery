@@ -27,6 +27,7 @@ def inject_css() -> None:
         p, li, label, .stCaption { color:var(--ink-soft); line-height:1.65; }
         .brand-mark { width:42px; height:42px; display:grid; place-items:center; background:var(--brand); color:#fff!important; font-weight:800; letter-spacing:.05em; border-radius:12px; margin-bottom:8px; box-shadow:0 6px 16px rgba(23,80,223,.18); }
         .brand-name { font-weight:800; font-size:1.15rem; }
+        .nav-section-label { margin:.2rem 0 .55rem; color:var(--muted); font-size:.72rem; font-weight:800; letter-spacing:.08em; }
         .page-kicker, .hero-kicker { color:var(--brand); font-size:.72rem; font-weight:800; letter-spacing:.12em; margin-bottom:.45rem; }
         .page-subtitle { color:var(--muted); font-size:1rem; margin-top:-.4rem; margin-bottom:1.45rem; }
         .hero-panel { background:linear-gradient(135deg,#123d9e 0%,#1750df 65%,#2868e9 100%); color:#fff; border-radius:16px; padding:2rem 2.2rem; display:grid; grid-template-columns:1.5fr .8fr; gap:2rem; align-items:end; margin:1.1rem 0 1.4rem; box-shadow:0 14px 30px rgba(16,60,158,.16); }
@@ -48,7 +49,7 @@ def inject_css() -> None:
         .route-row strong { color:var(--brand); letter-spacing:.04em; }
         .route-dot { width:11px; height:11px; border-radius:50%; display:block; }
         .route-dot.noodle { background:var(--brand); } .route-dot.ginger { background:var(--accent); } .route-dot.reuse { background:#748297; }
-        .note-panel { border-left:4px solid var(--accent); }
+        .note-panel { border-color:#f2cfb7; background:#fffaf6; }
         .note-panel p { margin:.2rem 0 .8rem; line-height:1.65; }
         .note-panel p:last-child { margin-bottom:.2rem; }
         .muted { color:var(--muted)!important; font-size:.9rem; }
@@ -92,6 +93,12 @@ def inject_css() -> None:
         .st-key-home_hero [data-testid='stImage'] p { padding:.35rem .5rem .5rem; color:var(--muted); }
         .st-key-home_hero .home-hero-copy { animation:home-copy .8s cubic-bezier(.16,1,.3,1) both; }
         .st-key-home_hero .stButton>button { min-height:3rem; }
+        .customer-journey { display:grid; gap:.75rem; padding:1.1rem; border:1px solid var(--line); border-radius:16px; background:#fff; box-shadow:0 20px 42px rgba(31,57,100,.10); }
+        .customer-journey>div { display:grid; grid-template-columns:34px 1fr; gap:.18rem .8rem; align-items:center; padding:1rem; border-bottom:1px solid var(--line); }
+        .customer-journey>div:last-child { border-bottom:0; }
+        .customer-journey span { grid-row:span 2; width:32px; height:32px; display:grid; place-items:center; border-radius:50%; background:var(--surface-blue); color:var(--brand); font-size:.72rem; font-weight:800; }
+        .customer-journey b { color:var(--ink); }
+        .customer-journey small { color:var(--muted); }
         .home-proof { display:grid; grid-template-columns:repeat(4,1fr); margin:1rem 0 6rem; padding:1.2rem 1.4rem; border-bottom:1px solid var(--line); }
         .home-proof>div { padding:.35rem 1.2rem; border-right:1px solid var(--line); }
         .home-proof>div:last-child { border-right:0; }
@@ -143,6 +150,16 @@ def inject_css() -> None:
         .service-assurance b,.service-assurance span { display:block; }
         .service-assurance b { color:var(--brand-dark); }
         .service-assurance span { margin-top:.35rem; color:var(--muted); font-size:.84rem; }
+        .fee-preview { display:grid; grid-template-columns:1fr auto; gap:.25rem 1rem; margin:1rem 0; padding:1.25rem 1.35rem; border:1px solid #f0d2be; border-radius:14px; background:#fff8f3; }
+        .fee-preview span { color:#7a5a45; font-size:.86rem; }
+        .fee-preview strong { grid-row:span 2; align-self:center; color:#b45309; font-size:1.75rem; font-variant-numeric:tabular-nums; }
+        .fee-preview small { max-width:62ch; color:#7a6a60; line-height:1.55; }
+        .map-order-head { display:grid; grid-template-columns:repeat(3,1fr); margin:1rem 0 1.25rem; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+        .map-order-head>div { padding:1rem 1.2rem; border-right:1px solid var(--line); }
+        .map-order-head>div:last-child { border-right:0; }
+        .map-order-head span,.map-order-head b { display:block; }
+        .map-order-head span { color:var(--muted); font-size:.78rem; }
+        .map-order-head b { margin-top:.35rem; color:var(--brand-dark); font-size:1rem; }
         .tracking-head { display:flex; align-items:flex-end; justify-content:space-between; gap:2rem; margin:1rem 0 2rem; padding:2rem; border-radius:18px; background:#102f76; }
         .tracking-head span,.tracking-head small { color:#b9caef; font-size:.78rem; }
         .tracking-head h2 { margin:.3rem 0; color:#fff; font-size:clamp(2rem,3vw,3.2rem)!important; }
@@ -204,7 +221,7 @@ def inject_css() -> None:
         @keyframes route-run { 0% { left:4%; opacity:0; } 20% { opacity:1; } 80% { opacity:1; } 100% { left:92%; opacity:0; } }
         .metric-card, .route-board, .note-panel, [data-testid='stMetric'], [data-testid='stPlotlyChart'], [data-testid='stDataFrame'] { animation:reveal-up .62s cubic-bezier(.16,1,.3,1) both; }
         @supports (animation-timeline: view()) { .metric-card, .route-board, .note-panel, .home-reveal, [data-testid='stMetric'], [data-testid='stPlotlyChart'], [data-testid='stDataFrame'] { animation-name:reveal-on-scroll; animation-duration:1ms; animation-fill-mode:both; animation-timeline:view(); animation-range:entry 5% cover 28%; animation-delay:0ms; } }
-        @media (max-width: 800px) { h1 { font-size:2rem!important; } .hero-panel { grid-template-columns:1fr; padding:1.3rem; } .hero-index { border-left:0; border-top:1px solid rgba(255,255,255,.25); padding:1rem 0 0; } .block-container { padding-left:1rem; padding-right:1rem; } .home-nav-copy { display:none; } .st-key-home_hero { padding:1.2rem; border-radius:20px; } .home-hero-copy h1 { max-width:12ch; font-size:2.75rem!important; } .home-proof { grid-template-columns:repeat(2,1fr); margin-bottom:4rem; padding:.8rem 0; } .home-proof>div { padding:.8rem; } .home-proof>div:nth-child(2) { border-right:0; } .home-proof>div:nth-child(-n+2) { border-bottom:1px solid var(--line); } .home-bento { grid-template-columns:1fr; margin-bottom:4rem; } .home-feature-large { grid-row:auto; min-height:330px; } .home-flow { grid-template-columns:1fr; } .home-flow-item { min-height:auto; } .home-flow-item b { margin-bottom:.5rem; } .st-key-home_flow { padding:1.25rem; } [class*='st-key-entry_'] { min-height:0; margin-bottom:.5rem; } .home-final { border-radius:18px 18px 0 0; } .service-hero { grid-template-columns:1fr; padding:1.4rem; } .service-orbit { min-height:120px; } .service-assurance { grid-template-columns:1fr; } .service-assurance div { border-right:0; border-bottom:1px solid var(--line); } .tracking-head { align-items:flex-start; flex-direction:column; } .tracking-state { justify-items:start; } .delivery-track { overflow-x:auto; grid-template-columns:repeat(5,110px); padding-bottom:.8rem; } .delivery-track::before,.delivery-track-fill { left:55px; right:55px; } .delivery-track-fill { right:auto; width:calc(var(--track) * 4.4); } .detail-sheet div { grid-template-columns:1fr; gap:.25rem; } .demo-banner { align-items:flex-start; flex-direction:column; } .integration-rail { grid-template-columns:repeat(2,1fr); } .integration-rail>div:nth-child(2) { border-right:0; } .pulse-route { display:none; } }
+        @media (max-width: 800px) { h1 { font-size:2rem!important; } .hero-panel { grid-template-columns:1fr; padding:1.3rem; } .hero-index { border-left:0; border-top:1px solid rgba(255,255,255,.25); padding:1rem 0 0; } .block-container { padding-left:1rem; padding-right:1rem; } .home-nav-copy { display:none; } .st-key-home_hero { padding:1.2rem; border-radius:20px; } .home-hero-copy h1 { max-width:12ch; font-size:2.75rem!important; } .home-proof { grid-template-columns:repeat(2,1fr); margin-bottom:4rem; padding:.8rem 0; } .home-proof>div { padding:.8rem; } .home-proof>div:nth-child(2) { border-right:0; } .home-proof>div:nth-child(-n+2) { border-bottom:1px solid var(--line); } .home-bento { grid-template-columns:1fr; margin-bottom:4rem; } .home-feature-large { grid-row:auto; min-height:330px; } .home-flow { grid-template-columns:1fr; } .home-flow-item { min-height:auto; } .home-flow-item b { margin-bottom:.5rem; } .st-key-home_flow { padding:1.25rem; } [class*='st-key-entry_'] { min-height:0; margin-bottom:.5rem; } .home-final { border-radius:18px 18px 0 0; } .service-hero { grid-template-columns:1fr; padding:1.4rem; } .service-orbit { min-height:120px; } .service-assurance { grid-template-columns:1fr; } .service-assurance div { border-right:0; border-bottom:1px solid var(--line); } .fee-preview { grid-template-columns:1fr; } .fee-preview strong { grid-row:auto; } .map-order-head { grid-template-columns:1fr; } .map-order-head>div { border-right:0; border-bottom:1px solid var(--line); } .map-order-head>div:last-child { border-bottom:0; } .tracking-head { align-items:flex-start; flex-direction:column; } .tracking-state { justify-items:start; } .delivery-track { overflow-x:auto; grid-template-columns:repeat(5,110px); padding-bottom:.8rem; } .delivery-track::before,.delivery-track-fill { left:55px; right:55px; } .delivery-track-fill { right:auto; width:calc(var(--track) * 4.4); } .detail-sheet div { grid-template-columns:1fr; gap:.25rem; } .demo-banner { align-items:flex-start; flex-direction:column; } .integration-rail { grid-template-columns:repeat(2,1fr); } .integration-rail>div:nth-child(2) { border-right:0; } .pulse-route { display:none; } }
         @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; transform:none!important; filter:none!important; } }
         </style>
         """,
@@ -216,20 +233,18 @@ def render_sidebar() -> None:
     with st.sidebar:
         st.markdown("<div class='brand-mark'>YL</div>", unsafe_allow_html=True)
         st.markdown("<div class='brand-name'>银犁智慧配送</div>", unsafe_allow_html=True)
-        st.caption("订单、车辆、路线与费用，一处看清")
+        st.caption("下单、追踪、地图与签收")
         st.divider()
-        st.page_link("app.py", label="返回网站首页", icon="🏠")
+        st.markdown("<div class='nav-section-label'>客户服务</div>", unsafe_allow_html=True)
+        st.page_link("app.py", label="网站首页", icon="🏠")
         st.page_link("pages/0_客户下单.py", label="客户下单", icon="📝")
         st.page_link("pages/0_订单追踪.py", label="订单追踪", icon="📍")
+        st.page_link("pages/3_配送网络地图.py", label="我的配送地图", icon="🗺️")
+        st.page_link("pages/8_电子签收.py", label="确认签收", icon="✍️")
+        st.divider()
+        st.markdown("<div class='nav-section-label'>工作人员</div>", unsafe_allow_html=True)
         st.page_link("pages/1_数据导入与方案生成.py", label="上传订单", icon="📄")
         st.page_link("pages/1_方案驾驶舱.py", label="配送总览", icon="📊")
-        st.page_link("pages/2_订单与需求.py", label="订单情况", icon="📦")
-        st.page_link("pages/3_配送网络地图.py", label="配送地图", icon="🗺️")
-        st.page_link("pages/4_车辆路径优化.py", label="车辆安排", icon="🚚")
-        st.page_link("pages/5_成本与绩效.py", label="费用与服务", icon="💰")
-        st.page_link("pages/6_方案对比.py", label="方案比较", icon="🔄")
-        st.page_link("pages/7_企业工作台.py", label="企业工作台", icon="🏢")
-        st.page_link("pages/8_电子签收.py", label="电子签收", icon="✍️")
 
 
 def page_title(title: str, subtitle: str = "") -> None:
