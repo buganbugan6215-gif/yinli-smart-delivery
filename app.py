@@ -1,17 +1,9 @@
-from pathlib import Path
-
 import streamlit as st
 
-from 功能组件_页面共用代码.data_loader import load_site_data
-from 功能组件_页面共用代码.ui import inject_css, render_sidebar, source_note
-
-
-ROOT = Path(__file__).resolve().parent
-ROUTE_PREVIEW = ROOT / "展示图片_地图和答辩图" / "02_道路最短路径图" / "全部客户最短路径.png"
+from 功能组件_页面共用代码.ui import inject_css, render_sidebar
 
 st.set_page_config(page_title="银犁智慧配送", page_icon="🚚", layout="wide", initial_sidebar_state="collapsed")
 inject_css()
-data = load_site_data()
 render_sidebar()
 
 st.markdown("""
@@ -22,59 +14,51 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 with st.container(key="home_hero"):
-    hero_copy, hero_visual = st.columns([1.03, 0.97], gap="large", vertical_alignment="center")
+    hero_copy, hero_visual = st.columns([1.08, 0.92], gap="large", vertical_alignment="center")
     with hero_copy:
         st.markdown("""
         <div class="home-hero-copy">
-          <h1>从一份订单，到一套清楚的配送安排。</h1>
-          <p>上传客户订单，快速看懂由谁配送、怎么走、何时到，以及预计花费。</p>
+          <h1>下单、追踪、签收，一次完成。</h1>
+          <p>填写地址、货量和送达时间，随时查看配送进度与您的专属路线。</p>
         </div>
         """, unsafe_allow_html=True)
         action_a, action_b = st.columns(2)
         with action_a:
-            if st.button("上传订单", type="primary", use_container_width=True, key="hero_upload"):
-                st.switch_page("pages/1_数据导入与方案生成.py")
+            if st.button("立即下单", type="primary", use_container_width=True, key="hero_upload"):
+                st.switch_page("pages/0_客户下单.py")
         with action_b:
-            if st.button("先看配送地图", use_container_width=True, key="hero_map"):
-                st.switch_page("pages/3_配送网络地图.py")
-        st.caption("支持 Excel、CSV 和已有配送结果，数据仅用于生成本次方案。")
+            if st.button("查询订单", use_container_width=True, key="hero_map"):
+                st.switch_page("pages/0_订单追踪.py")
+        st.caption("目前支持鲜面条和姜蒜配送，费用在提交前清楚展示。")
     with hero_visual:
-        if ROUTE_PREVIEW.exists():
-            st.image(ROUTE_PREVIEW, caption="当前配送网络预览", use_container_width=True)
-        else:
-            st.info("路线预览正在准备中")
-
-summary = data.summary.get("noodle", {})
-if summary:
-    st.markdown(f"""
-    <div class="home-proof home-reveal">
-      <div><strong>{summary.get('customers', '暂无')}</strong><span>个配送点</span></div>
-      <div><strong>{summary.get('vehicles_used', '暂无')}</strong><span>辆车协同配送</span></div>
-      <div><strong>{summary.get('total_distance_km', 0):,.1f}</strong><span>公里预计行程</span></div>
-      <div><strong>¥ {summary.get('total_cost', 0):,.0f}</strong><span>预计配送费用</span></div>
-    </div>
-    """, unsafe_allow_html=True)
+        st.markdown("""
+        <div class="customer-journey motion-focus">
+          <div><span>01</span><b>提交配送需求</b><small>地址、品类、重量和时间</small></div>
+          <div><span>02</span><b>查看配送进度</b><small>从接单到送达全程可查</small></div>
+          <div><span>03</span><b>确认收货</b><small>一键签收或提交异常反馈</small></div>
+        </div>
+        """, unsafe_allow_html=True)
 
 st.markdown("""
 <section class="home-section home-reveal">
-  <h2>复杂的配送，留给平台处理。</h2>
-  <p>您只需要提供订单，剩下的信息会被整理成容易确认、方便执行的页面。</p>
+  <h2>您关心的配送信息，都在这里。</h2>
+  <p>从提交需求到确认收货，每一步都有清楚的状态和下一步提示。</p>
 </section>
 <div class="home-bento">
-  <article class="home-feature home-feature-large home-reveal"><span class="feature-number">01</span><h3>看懂每一条路线</h3><p>客户位置、车辆路线和送达顺序集中在一张中文地图上，配送范围一目了然。</p><div class="feature-line"></div></article>
-  <article class="home-feature home-feature-blue home-reveal"><span class="feature-number">02</span><h3>知道谁来配送</h3><p>每辆车负责哪些客户、装多少货、几点出发，都有明确安排。</p></article>
-  <article class="home-feature home-feature-light home-reveal"><span class="feature-number">03</span><h3>提前了解费用</h3><p>把车辆、行驶和服务费用分开说明，减少沟通中的模糊地带。</p></article>
-  <article class="home-feature home-feature-dark home-reveal"><span class="feature-number">04</span><h3>比较不同安排</h3><p>车辆数量、路线长短和预计费用并排展示，更容易选择合适方案。</p></article>
+  <article class="home-feature home-feature-large home-reveal"><h3>填写一次，配送需求清楚送达。</h3><p>客户名称、联系人、地址、电话、品类、重量和送达时间集中填写，提交前即可查看预估费用。</p><div class="feature-line"></div></article>
+  <article class="home-feature home-feature-blue home-reveal"><h3>进度随时可查</h3><p>订单已提交、仓库备货、等待装车、配送途中和配送完成，状态一目了然。</p></article>
+  <article class="home-feature home-feature-light home-reveal"><h3>只看自己的路线</h3><p>配送确认后，客户地图仅显示当前订单路线；车辆实时位置待 GPS 接入。</p></article>
+  <article class="home-feature home-feature-dark home-reveal"><h3>签收更简单</h3><p>正常到货一键确认；有包装、数量、温度或延误问题，可直接提交异常反馈。</p></article>
 </div>
 """, unsafe_allow_html=True)
 
 with st.container(key="home_flow"):
     st.markdown("""
-    <section class="home-section home-reveal"><h2>三步得到配送答案。</h2><p>从订单进入平台，到确认可执行方案，过程简单、结果清楚。</p></section>
+    <section class="home-section home-reveal"><h2>三步完成一次配送。</h2><p>无需上传表格，客户只需填写自己的配送需求。</p></section>
     <div class="home-flow">
-      <div class="home-flow-item home-reveal"><b>上传</b><span>放入客户、货量和时间要求</span></div>
-      <div class="home-flow-item home-reveal"><b>安排</b><span>生成车辆、路线和送达顺序</span></div>
-      <div class="home-flow-item home-reveal"><b>确认</b><span>查看地图、费用与服务结果</span></div>
+      <div class="home-flow-item home-reveal"><b>下单</b><span>填写地址、品类、重量和送达时间</span></div>
+      <div class="home-flow-item home-reveal"><b>追踪</b><span>查看备货、装车和配送进度</span></div>
+      <div class="home-flow-item home-reveal"><b>签收</b><span>确认收货，异常情况及时反馈</span></div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -84,7 +68,7 @@ entries = [
     ("pages/0_客户下单.py", "客户下单", "提交配送需求", "订单"),
     ("pages/0_订单追踪.py", "订单追踪", "查看处理进度", "追踪"),
     ("pages/3_配送网络地图.py", "配送地图", "看位置与路线", "地图"),
-    ("pages/7_企业工作台.py", "企业工作台", "处理订单与配送", "运营"),
+    ("pages/8_电子签收.py", "电子签收", "确认收货或反馈异常", "签收"),
 ]
 for col, (page, title, copy, icon) in zip(entry_cols, entries):
     with col:
@@ -95,15 +79,8 @@ for col, (page, title, copy, icon) in zip(entry_cols, entries):
 
 st.markdown("""
 <div class="home-final home-reveal">
-  <div><h2>准备好您的订单，配送安排从这里开始。</h2><p>上传后即可查看车辆、路线、预计到达和费用。</p></div>
+  <div><h2>准备好配送信息，就可以开始下单。</h2><p>提交前显示预估费用，提交后可随时查看进度。</p></div>
 </div>
 """, unsafe_allow_html=True)
-if st.button("开始生成配送方案", type="primary", use_container_width=True, key="final_upload"):
-    st.switch_page("pages/1_数据导入与方案生成.py")
-
-if data.errors:
-    with st.expander("数据加载提示"):
-        for error in data.errors:
-            st.error(error)
-
-source_note(data.manifest)
+if st.button("填写配送订单", type="primary", use_container_width=True, key="final_upload"):
+    st.switch_page("pages/0_客户下单.py")
