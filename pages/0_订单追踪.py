@@ -41,12 +41,14 @@ with left:
       <div><span>收货地址</span><b>{order['收货地址']}</b></div>
       <div><span>期望送达</span><b>{order['期望送达']}</b></div>
       <div><span>最晚送达</span><b>{order['最晚送达']}</b></div>
+      <div><span>预估费用</span><b>¥ {float(order.get('预估费用_元', 0)):,.2f}</b></div>
       <div><span>配送车辆</span><b>等待调度安排</b></div>
     </div>
     """, unsafe_allow_html=True)
 with right:
     st.markdown("### 设备信息")
     st.info("车辆 GPS 与温度设备尚未接入。生成正式调度方案后，这里将显示车辆位置、预计到达和温控状态。")
+    st.page_link("pages/3_配送网络地图.py", label="查看我的配送地图", use_container_width=True)
     if index == len(STATUS_FLOW) - 1 and st.button("完成电子签收", type="primary", use_container_width=True):
         st.switch_page("pages/8_电子签收.py")
 
